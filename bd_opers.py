@@ -1,9 +1,9 @@
 import pymysql
-from initials import *
+from initials import db_host, db_user, db_passwd, db_db
 
 def main_bd():
-    con = pymysql.connect(host=host, user=user,
-                          passwd=passwd, db=db)
+    con = pymysql.connect(host=db_host, user=db_user,
+                          passwd=db_passwd, db=db_db)
 
     with con:
         cur = con.cursor()

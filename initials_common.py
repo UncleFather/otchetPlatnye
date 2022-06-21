@@ -1,14 +1,14 @@
 # ************* MIS Bars Connection *************
-username = "user"
-password = "PasSWorD"
+mis_username = "user"
+mis_password = "PasSWorD"
 mis_url = "http://11.11.11.11/path"
 
 # ************* DataBase Connection *************
-host = 'sql_server'
-user = 'sql_user'
-passwd = 'sql_pass'
-db = 'db_name'
+db_host = 'sql_server'
+db_user = 'sql_user'
+db_passwd = 'sql_pass'
+db_db = 'db_name'
 
 # ************* xlsx Operations *************
-paths = 'C:\\Users\\User\\Downloads\\'
+file_paths = 'C:\\Users\\User\\Downloads\\'
 file_mask = 'Журнал выданных свидетельств*.xlsx'

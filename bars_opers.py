@@ -6,7 +6,7 @@ from datetime import datetime as dt, timedelta as tdl
 from initials import *
 
 # Функция формирования отчета с текущей датой
-def send_form(curr_date):
+def send_form(driver, curr_date):
     # Парсим форму, находим поле ввода даты начала отчета
     datefield_B = driver.find_element(By.ID, "_mainContainer").find_element(By.NAME, "DATE_B").find_element(
         By.CLASS_NAME, "input-ctrl")
@@ -42,11 +42,10 @@ def send_form(curr_date):
 
 def main_bars():
     # Устанавливаем константы с учетными данными
-    username = username
-    password = password
+    username = mis_username
+    password = mis_password
     # Инициализируем драйвер Google Chrome
     driver = webdriver.Chrome("chromedriver")
-
     # Переходим на страницу входа на сайт
     driver.get(mis_url)
     # Устанавливаем размер окна открывшегося экземпляра браузера
@@ -66,6 +65,13 @@ def main_bars():
 
     # Ждем 3 секунды
     sleep(3)
+
+    # Парсим страничку, на предмет нахождения на ней всплывающих сообщений и закрываем их
+    try:
+        driver.find_element(By.LINK_TEXT, 'Закрыть все').click()
+    except Exception:
+        pass
+
     # Парсим страничку, находим нужные пункты меню и кликаем по ним
     driver.find_element(By.LINK_TEXT, 'Учет').click()
     driver.find_element(By.LINK_TEXT, 'Учет медицинских свидетельств').click()
@@ -81,6 +87,7 @@ def main_bars():
     # Перебираем все диапазоны внутри заданных дат
     while curr_date >= delta_date:
         # Вызываем функцию формирования отчета с текущей датой
-        send_form(curr_date)
+        send_form(driver, curr_date)
         # Уменьшаем значение текущей даты на два дня (так как более широкий промежуток может привести к ошибке в Барсе)
         curr_date = curr_date - tdl(days=2)
+

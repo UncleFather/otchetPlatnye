@@ -1,12 +1,12 @@
 from datetime import datetime as dt, time
-from openpyxl import Workbook as wb, load_workbook as ld_wb
+from openpyxl import Workbook as wkb, load_workbook as ld_wb
 from pathlib import Path
-from initials import *
+from initials import file_paths, file_mask
 
 def main_xlsx():
     # Получаем отсортированный список всех файлов выгрузок так, чтобы первым в списке был 'Журнал выданных свидетельств.xlsx',
     # так как именно на него настроен импорт в Access
-    paths = sorted(Path(paths).glob(file_mask), reverse=True)
+    paths = sorted(Path(file_paths).glob(file_mask), reverse=True)
 
     # paths = ['C:\\Users\\Manaeff\\Downloads\\Журнал выданных свидетельств.xlsx', 'C:\\Users\\Manaeff\\Downloads\\Журнал выданных свидетельств (1).xlsx']
     # print(paths)
@@ -15,7 +15,7 @@ def main_xlsx():
     # В первый файл (сделаем его файлом вывода) списка будем дописывать все данные
     filepath = paths[0]
     # Создаем объект "Workbook" (Рабочая книга)
-    wb_w = wb()
+    wb_w = wkb()
     # Выбираем первый лист рабочей книги
     sheet_w = wb_w.worksheets[0]
 
