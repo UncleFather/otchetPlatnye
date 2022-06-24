@@ -1,9 +1,11 @@
+from initials import mis_url, mis_username, mis_password
+
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from datetime import datetime as dt, timedelta as tdl
-from initials import *
+
 
 # Функция формирования отчета с текущей датой
 def send_form(driver, curr_date):
@@ -40,7 +42,7 @@ def send_form(driver, curr_date):
     sleep(20)
 
 
-def main_bars():
+def main_bars(days_depth=45, days_step=2):
     # Устанавливаем константы с учетными данными
     username = mis_username
     password = mis_password
@@ -83,11 +85,10 @@ def main_bars():
     # Получаем сегодняшнюю дату
     curr_date = dt.now()
     # Получаем дату ранее текущей на 45 дней
-    delta_date = curr_date - tdl(days=45)
+    delta_date = curr_date - tdl(days=days_depth)
     # Перебираем все диапазоны внутри заданных дат
     while curr_date >= delta_date:
         # Вызываем функцию формирования отчета с текущей датой
         send_form(driver, curr_date)
         # Уменьшаем значение текущей даты на два дня (так как более широкий промежуток может привести к ошибке в Барсе)
-        curr_date = curr_date - tdl(days=2)
-
+        curr_date = curr_date - tdl(days=days_step)
