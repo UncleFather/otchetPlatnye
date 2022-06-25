@@ -10,10 +10,6 @@ def main_xlsx_prepare():
     # свидетельств.xlsx', так как именно на него настроен импорт в Access
     paths = sorted(Path(file_paths).glob(file_mask), reverse=True)
 
-    # paths = ['C:\\Users\\Manaeff\\Downloads\\Журнал выданных свидетельств.xlsx', 'C:\\Users\\Manaeff\\Downloads\\Журнал выданных свидетельств (1).xlsx']
-    # print(paths)
-    # wb_w = ld_wb(filename = 'C:\\Users\\Manaeff\\Downloads\\Лист Microsoft Excel.xlsx')
-    # sheet_w = wb_w.worksheets[0]
     # В первый файл (сделаем его файлом вывода) списка будем дописывать все данные
     filepath = paths[0]
     # Создаем объект "Workbook" (Рабочая книга)
@@ -59,6 +55,3 @@ def main_xlsx_prepare():
                 curr_row += 1
         # Записываем файл вывода
         wb_w.save(filepath)
-
-
-#main_xlsx_prepare()
