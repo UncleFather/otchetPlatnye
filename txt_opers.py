@@ -6,7 +6,7 @@ def writing_etalon(etalon_str):
     # Инициализируем переменную, указывающую количество отступов для файла отчета
     indention = 8
     # Задаем имя (и путь) к файлу с инициализационными данными
-    path_ini = 'initials.py'
+    path_ini = 'initials_common.py'
     # Открываем файл для чтения и добавления данных
     handler = open(path_ini, 'a+', encoding='utf8')
     log_write(f'Открыт инициализационный файл для записи переменной «etalon»', indention)

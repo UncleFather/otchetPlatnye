@@ -8,7 +8,7 @@ from txt_opers import log_write
 
 from datetime import datetime as dt
 from atexit import register
-from sys import exit, excepthook
+import sys
 
 
 # Класс для обработки события выхода из программы
@@ -20,9 +20,9 @@ class ExitHooks(object):
 
     # Описываем метод hook, возникающий при генерации исключения, в том числе и выхода из программы
     def hook(self):
-        self._orig_exit = exit
-        exit = self.exit
-        excepthook = self.exc_handler
+        self._orig_exit = sys.exit
+        sys.exit = self.exit
+        sys.excepthook = self.exc_handler
 
     # Описываем метод exit, получающий код исключения
     def exit(self, code=0):
@@ -59,6 +59,7 @@ def exit_proc():
 hooks = ExitHooks()
 # Вызываем метод получения сгенерированного исключения
 hooks.hook()
+
 # Инициализируем процедуру обработки выхода из программы, в том числе при возникновении ошибки
 register(exit_proc)
 # Инициализируем переменную с текущей датой
