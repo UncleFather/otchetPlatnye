@@ -1,8 +1,8 @@
-from initials import smtp_server, smtp_port, smtp_user, smtp_password, smtp_from, smtp_to, smtp_to_name
+from initials_common import smtp_server, smtp_port, smtp_user, smtp_password, smtp_from, smtp_to, smtp_to_name
 
 from txt_opers import log_write
 
-import smtplib, ssl
+from smtplib import SMTP
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
@@ -48,7 +48,7 @@ def send_mail(attachment, isTls=True):
     log_write(f'Присоединен файл итогового отчета {attachment} в качестве вложения', indention)
 
     # Создаем объект smtp подключения
-    smtp = smtplib.SMTP(smtp_server, smtp_port)
+    smtp = SMTP(smtp_server, smtp_port)
     log_write(f'Подключаемся к серверу {smtp_server}', indention)
     if isTls:
         smtp.starttls()

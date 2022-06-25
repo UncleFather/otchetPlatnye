@@ -1,6 +1,6 @@
-from initials import file_paths, file_mask, needed, titles, etalon, reports
-from file_opers import archive_files
+from initials_common import file_paths, file_mask, needed, titles, etalon, reports
 
+from file_opers import archive_files
 from txt_opers import writing_etalon, log_write
 
 from datetime import datetime as dt, time
@@ -104,7 +104,7 @@ def prepare_strings():
     needed_pos = [-1] * 10
     # Получаем список всех файлов выгрузок
     paths = list(Path(file_paths).glob(file_mask))
-    log_write(f'Получен список из {paths.count()} файлов выгрузок', indention)
+    log_write(f'Получен список из {len(paths)} файлов выгрузок', indention)
     # Инициализируем общий счетчик строк файла и счетчик добавленных строк
     str_total, str_added = 0, 0
     # Инициализируем пустой массив строк для передачи из в вызывающую функцию
@@ -154,7 +154,7 @@ def prepare_strings():
                 # Дописываем в массив строк текущую строку
                 curr_sheet.append(curr_row)
         log_write(f'Прочитано {str_total} строк, добавлено {str_added} строк', indention)
-    log_write(f'Обработано {paths.count()} файлов', indention)
+    log_write(f'Обработано {len(paths)} файлов', indention)
     # Вызываем процедуру архивирования и удаления xlsx файлов выгрузок
     log_write(f'Процедура архивирования и удаления файлов', indention)
     archive_files(paths)

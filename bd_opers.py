@@ -1,15 +1,13 @@
-import sys
-
-from initials import db_host, db_user, db_passwd, db_db
+from initials_common import db_host, db_user, db_passwd, db_db
 
 from txt_opers import log_write
 
-import pymysql
-
+from pymysql import connect
+from sys import exit
 
 # Функция подключения к БД MysQL
 def bd_connect():
-    return pymysql.connect(host=db_host, user=db_user, passwd=db_passwd, db=db_db)
+    return connect(host=db_host, user=db_user, passwd=db_passwd, db=db_db)
 
 
 # Функция подготовки базы данных к экспорту отчетов (добавление записей из фалов выгрузок xlsx и
@@ -96,7 +94,7 @@ def bd_prepare(val=''):
             log_write(f'При выполнении транзакции возникла ошибка {err}. Изменения в БД не применены. Работа '
                       f'программы будет прервана', indention)
             # Генерируем выход из программы
-            sys.exit(-1)
+            exit(-1)
 
         # Удаляем временную таблицу tmp_table
         cur.execute("DROP TEMPORARY TABLE `tmp_table`;")

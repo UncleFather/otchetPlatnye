@@ -1,9 +1,10 @@
-from initials import archive_path, archive_name, file_paths, file_mask
+from initials_common import archive_path, archive_name
 
 from txt_opers import log_write
+from datetime import datetime as dt
 
 from os import path, remove
-import zipfile
+from zipfile import ZipFile, ZIP_DEFLATED
 
 
 # Процедура архивирования и удаления xlsx файлов журналов выгрузок
@@ -12,14 +13,14 @@ def archive_files(files_list):
     indention = 6
     # Создаем (или открываем, если он уже создан) архивный файл по указанному пути, указываем метод
     # сжатия ZIP_DEFLATED и степень сжатия 9
-    zip_file = zipfile.ZipFile(file=archive_path + archive_name, mode='a', compression=zipfile.ZIP_DEFLATED,
-                               compresslevel=9)
+    zip_file = ZipFile(file=f'{archive_path}{archive_name}_{dt.now():%Y.%m.%d}.zip', mode='a',
+                               compression=ZIP_DEFLATED, compresslevel=9)
     log_write(f'Проинициализирован файл архива для файлов выгрузок', indention)
     # Для всех файлов из переданного в функцию списка
     for item in files_list:
         # Запаковываем текущий файл в архив без указания пути, указывая метод сжатия ZIP_DEFLATED
         # и степень сжатия 9
-        zip_file.write(item, compress_type=zipfile.ZIP_DEFLATED, compresslevel=9, arcname=path.basename(item))
+        zip_file.write(item, compress_type=ZIP_DEFLATED, compresslevel=9, arcname=path.basename(item))
         log_write(f'Файл выгрузки {path.basename(item)} успешно запакован в архив', indention)
 
     # Закрываем архивный файл

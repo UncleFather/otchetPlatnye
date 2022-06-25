@@ -34,4 +34,4 @@ reports = ['otchet_platnyedate', 'without_platnye_date', 'kosyak_podrobno']
 
 # ************* File Operations *************
 archive_path = 'C:\\Users\\User\\Downloads\\Archives\\'
-archive_name = 'journal_archive.zip'
+archive_name = 'journal_archive'
