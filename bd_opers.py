@@ -1,4 +1,8 @@
+import sys
+
 from initials import db_host, db_user, db_passwd, db_db
+
+from txt_opers import log_write
 
 import pymysql
 
@@ -11,8 +15,11 @@ def bd_connect():
 # Функция подготовки базы данных к экспорту отчетов (добавление записей из фалов выгрузок xlsx и
 # удаление дублирующихся записей)
 def bd_prepare(val=''):
+    # Инициализируем переменную, указывающую количество отступов для файла отчета
+    indention = 4
     # Устанавливаем соединение с БД
     con = bd_connect()
+    log_write(f'Соединение с базой данных {db_db} установлено', indention)
 
     with con:
         # Создаем курсор
@@ -31,6 +38,9 @@ def bd_prepare(val=''):
                     "SELECT * "
                     "FROM "
                     "`sdo`.`bars_svidet`")
+        # Инициализируем переменную для хранения исходного количества строк в таблице bars_svidet
+        initial_rows_count = cur.rowcount
+        log_write(f'Временная таблица «tmp_table» создана', indention)
 
         # Формируем строку запроса для добавления данных в таблицу
         sql = "INSERT INTO `tmp_table`(" \
@@ -48,6 +58,7 @@ def bd_prepare(val=''):
 
         # Пытаемся выполнить запросы к БД
         try:
+            log_write(f'Выполняем запросы по добавлению данных в таблицу «bars_svidet»', indention)
             # Добавляем во временную таблицу tmp_table строки из xlsx файлов выгрузок,
             # переданные при вызове функции
             cur.executemany(sql, val)
@@ -72,6 +83,7 @@ def bd_prepare(val=''):
                         )
             # Выполняем транзакцию
             con.commit()
+            log_write(f'В таблицу «bars_svidet» добавлено {cur.rowcount - initial_rows_count} строк', indention)
             # Печатаем количество строк, добавленных в таблицу bars_svidet
             # print(cur.rowcount, "records inserted!")
 
@@ -81,14 +93,22 @@ def bd_prepare(val=''):
             con.rollback()
             # Печатаем ошибку
             print(err)
+            log_write(f'При выполнении транзакции возникла ошибка {err}. Изменения в БД не применены. Работа '
+                      f'программы будет прервана', indention)
+            # Генерируем выход из программы
+            sys.exit(-1)
 
         # Удаляем временную таблицу tmp_table
         cur.execute("DROP TEMPORARY TABLE `tmp_table`;")
+        log_write(f'Временная таблица удалена. Новые строки успешно добавлены в базу данных.', indention)
 
 # Функция выполнения отчетов
 def bd_report(query_name):
+    # Инициализируем переменную, указывающую количество отступов для файла отчета
+    indention = 4
     # Устанавливаем соединение с БД
     con = bd_connect()
+    log_write(f'Соединение с базой данных {db_db} установлено', indention)
 
     with con:
         # Создаем курсор
@@ -99,6 +119,7 @@ def bd_report(query_name):
                         f"* "
                     f"FROM "
                         f"`sdo`.`{query_name}`;")
+        log_write(f'Запрос отчета {query_name} успешно выполнен', indention)
 
         # Возвращаем все строки выполненного запроса
         return cur.fetchall()

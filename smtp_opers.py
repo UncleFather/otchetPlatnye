@@ -1,5 +1,7 @@
 from initials import smtp_server, smtp_port, smtp_user, smtp_password, smtp_from, smtp_to, smtp_to_name
 
+from txt_opers import log_write
+
 import smtplib, ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
@@ -11,6 +13,8 @@ from datetime import datetime as dt
 
 # Функция отправки писем с вложением xlsx файла по smtp
 def send_mail(attachment, isTls=True):
+    # Инициализируем переменную, указывающую количество отступов для файла отчета
+    indention = 4
     # Формируем служебные заголовки отправляемого письма
     msg = MIMEMultipart()
     msg['From'] = smtp_from
@@ -31,7 +35,7 @@ def send_mail(attachment, isTls=True):
            f'{"*" * 40}\n' \
            f'{" " * 13}Best regards!\n' \
            f'{"*" * 40}'
-
+    log_write(f'Созданы заголовки письма', indention)
     msg.attach(MIMEText(text))
 
     # Формируем письмо
@@ -41,14 +45,18 @@ def send_mail(attachment, isTls=True):
     encoders.encode_base64(part)
     part.add_header('Content-Disposition', f'attachment; filename={attachment}')
     msg.attach(part)
+    log_write(f'Присоединен файл итогового отчета {attachment} в качестве вложения', indention)
 
     # Создаем объект smtp подключения
     smtp = smtplib.SMTP(smtp_server, smtp_port)
+    log_write(f'Подключаемся к серверу {smtp_server}', indention)
     if isTls:
         smtp.starttls()
     # Подключаемся к smtp серверу, со своими учетными данными
     smtp.login(smtp_user, smtp_password)
+    log_write(f'Идентифицируемся с именем {smtp_user}', indention)
     # Выполняем отправку письма
     smtp.sendmail(smtp_from, smtp_to, msg.as_string())
+    log_write(f'Письмо успешно отправлено адресату {smtp_to_name}', indention)
     # Закрываем объект smtp подключения
     smtp.quit()
