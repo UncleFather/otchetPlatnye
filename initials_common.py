@@ -66,6 +66,6 @@ archive_name = 'journal_archive'
 # Путь к файлу журнала событий выполнения программы
 txt_log_path = ''
 # Имя файла журнала событий выполнения программы
-txt_log_name = ''
+txt_log_name = 'log_report.txt'
 # Имя инициализационного файла
 txt_inifile = 'initials_common.py'
