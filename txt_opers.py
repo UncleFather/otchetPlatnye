@@ -1,3 +1,5 @@
+from initials_common import txt_log_path, txt_log_name, txt_inifile
+
 from datetime import datetime as dt
 
 
@@ -5,11 +7,9 @@ from datetime import datetime as dt
 def writing_etalon(etalon_str):
     # Инициализируем переменную, указывающую количество отступов для файла отчета
     indention = 8
-    # Задаем имя (и путь) к файлу с инициализационными данными
-    path_ini = 'initials_common.py'
-    # Открываем файл для чтения и добавления данных
-    handler = open(path_ini, 'a+', encoding='utf8')
-    log_write(f'Открыт инициализационный файл для записи переменной «etalon»', indention)
+    # Открываем файл с инициализационными данными для чтения и добавления данных
+    handler = open(txt_inifile, 'a+', encoding='utf8')
+    log_write(f'Открыт инициализационный файл {txt_inifile} для записи переменной «etalon»', indention)
     # Помещаем указатель в начало файла, так как файл открыт в режиме добавления данных
     handler.seek(0)
     # Инициализируем переменную, показывающую считывается ли в настоящий момент времени переменная «etalon»
@@ -50,10 +50,8 @@ def writing_etalon(etalon_str):
 
 # Процедура записи журнала выполнения программы
 def log_write(mes_txt, indention=0):
-    # Инициализируем переменную, содержащую путь к журналу событий
-    path_ini = 'log_report.txt'
     # Открываем файл журнала событий в режиме добавления
-    handler = open(path_ini, 'a', encoding='utf8')
+    handler = open(txt_log_path + txt_log_name, 'a', encoding='utf8')
     # Записываем в файл сообщение с отступом, переданными при вызове процедуры
     # Добавляем время, в случае, если отступ не равен нулю
     curr_time = "" if indention == 0 else f'({dt.now():%H:%M:%S})'

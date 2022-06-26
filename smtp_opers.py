@@ -18,7 +18,9 @@ def send_mail(attachment, isTls=True):
     # Формируем служебные заголовки отправляемого письма
     msg = MIMEMultipart()
     msg['From'] = smtp_from
-    msg['To'] = smtp_to
+    # Подготавливаем строку получателей для передачи в служебный заголовок «To»
+    recipients = ", ".join(smtp_to)
+    msg['To'] = recipients
     msg['Date'] = formatdate(localtime=True)
 
     # Получаем текущую дату

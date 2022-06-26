@@ -5,6 +5,7 @@ from txt_opers import log_write
 from pymysql import connect
 from sys import exit
 
+
 # Функция подключения к БД MysQL
 def bd_connect():
     return connect(host=db_host, user=db_user, passwd=db_passwd, db=db_db)
@@ -100,6 +101,7 @@ def bd_prepare(val=''):
         cur.execute("DROP TEMPORARY TABLE `tmp_table`;")
         log_write(f'Временная таблица удалена. Новые строки успешно добавлены в базу данных.', indention)
 
+
 # Функция выполнения отчетов
 def bd_report(query_name):
     # Инициализируем переменную, указывающую количество отступов для файла отчета
@@ -114,9 +116,9 @@ def bd_report(query_name):
         # Выполняем запрос к БД, соответсвующий имени требуемого отчета (otchet_platnyedate,
         # without_platnye_date, kosyak_podrobno)
         cur.execute(f"SELECT "
-                        f"* "
+                    f"* "
                     f"FROM "
-                        f"`sdo`.`{query_name}`;")
+                    f"`sdo`.`{query_name}`;")
         log_write(f'Запрос отчета {query_name} успешно выполнен', indention)
 
         # Возвращаем все строки выполненного запроса

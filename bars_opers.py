@@ -1,4 +1,4 @@
-from initials_common import mis_url, mis_username, mis_password
+from initials_common import mis_url, mis_username, mis_password, mis_days_depth, mis_days_step
 
 from txt_opers import log_write
 
@@ -11,6 +11,7 @@ from datetime import datetime as dt, timedelta as tdl
 
 # Функция формирования отчета с текущей датой
 def send_form(driver, curr_date):
+    delta_date = curr_date - tdl(days=mis_days_step)
     # Инициализируем переменную, указывающую количество отступов для файла отчета
     indention = 6
     # Парсим форму, находим поле ввода даты начала отчета
@@ -21,8 +22,8 @@ def send_form(driver, curr_date):
     # Инициализируем поле (иначе не получится ввести дату)
     datefield_B.click()
     # Вводим дату начала отчета, ранее текущей на два дня
-    datefield_B.send_keys(f'{curr_date - tdl(days=2):%d%m%Y}')
-    log_write(f'Установлена дата начала отчета {curr_date - tdl(days=2):%d%m%Y}', indention)
+    datefield_B.send_keys(f'{delta_date:%d%m%Y}')
+    log_write(f'Установлена дата начала отчета {delta_date:%d.%m.%Y}', indention)
 
     # Парсим форму, находим поле ввода даты окончания отчета
     datefield_E = driver.find_element(By.ID, "_mainContainer").find_element(By.NAME, "DATE_E").find_element(
@@ -33,24 +34,27 @@ def send_form(driver, curr_date):
     datefield_E.click()
     # Вводим дату окончания отчета, равную текущей
     datefield_E.send_keys(f'{curr_date:%d%m%Y}')
-    log_write(f'Установлена дата окончания отчета {curr_date:%d%m%Y}', indention)
+    log_write(f'Установлена дата окончания отчета {curr_date:%d.%m.%Y}', indention)
 
     # Находим на форме кнопку формирования отчета и кликаем по ней
     driver.find_element(By.ID, "_mainContainer").find_element(By.CSS_SELECTOR, ".btnc").click()
-    log_write(f'Запущено формирование отчета {curr_date:%d%m%Y}', indention)
+    log_write(f'Запущено формирование отчета', indention)
 
     # Ждем 30 секунд
     sleep(30)
 
     # Находим на форме кнопку выгрузки отчета в xlsx файл и кликаем по ней
     driver.find_element(By.ID, "_mainContainer").find_element(By.CLASS_NAME, 'excel-button').click()
-    log_write(f'Скачиваем отчет {curr_date:%d%m%Y}', indention)
+    log_write(f'Скачиваем отчет', indention)
 
     # Ждем 20 секунд
     sleep(20)
 
+    # Возвращаем новую дату начала следующего отчета
+    return delta_date
 
-def main_bars(days_depth=45, days_step=2):
+
+def main_bars():
     # Инициализируем переменную, указывающую количество отступов для файла отчета
     indention = 4
     # Устанавливаем константы с учетными данными
@@ -106,12 +110,12 @@ def main_bars(days_depth=45, days_step=2):
     # Получаем сегодняшнюю дату
     curr_date = dt.now()
     # Получаем дату ранее текущей на 45 дней
-    delta_date = curr_date - tdl(days=days_depth)
+    delta_date = curr_date - tdl(days=mis_days_depth)
     # Перебираем все диапазоны внутри заданных дат
     while curr_date >= delta_date:
         # Вызываем функцию формирования отчета с текущей датой
-        log_write(f'Процедура формирования файла выгрузки с {curr_date:%d.%m.%Y} по '
-                  f'{(curr_date - tdl(days=days_step)):%d.%m.%Y}', indention)
-        send_form(driver, curr_date)
-        # Уменьшаем значение текущей даты на два дня (так как более широкий промежуток может привести к ошибке в Барсе)
-        curr_date = curr_date - tdl(days=days_step)
+        log_write(f'Процедура формирования файла выгрузки с {(curr_date - tdl(days=mis_days_step)):%d.%m.%Y} '
+                  f'по {curr_date:%d.%m.%Y}', indention)
+        # Из функции получаем новое значение начальной даты для следующего отчета
+        curr_date = send_form(driver, curr_date)
+

@@ -1,10 +1,10 @@
 from initials_common import reports
 
-from xlsx_opers import prepare_strings, save_xlsx
 from bd_opers import bd_prepare, bd_report
 from bars_opers import main_bars
 from smtp_opers import send_mail
 from txt_opers import log_write
+from xlsx_opers import prepare_strings, save_xlsx
 
 from datetime import datetime as dt
 from atexit import register
@@ -71,9 +71,9 @@ xlsx_filename = f'Otchet_Date_{curr_date:%Y.%m.%d}.xlsx'
 # Записываем время начала в журнал
 log_write(f'{"*" * 30} Начало генерации отчета от {curr_date:%Y.%m.%d} время начала {curr_date:%H:%M:%S}) '
           f'{"*" * 30}')
-# Выполняем запросы в МИС «Барс» на глубину days_depth дней с шагом days_step дней
+# Выполняем запросы в МИС «Барс»
 log_write(f'Отправка запросов в МИС «Барс» и получение файлов выгрузок', indention)
-main_bars(days_depth=45, days_step=2)
+#main_bars()
 # Собираем полученные данные из xlsx файлов выгрузок в один массив strings_to_add
 log_write(f'Процедура подготовки строк для добавления в БД', indention)
 strings_to_add = prepare_strings()
