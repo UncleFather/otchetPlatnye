@@ -1,4 +1,4 @@
-from initials_common import mis_url, mis_username, mis_password, mis_days_depth, mis_days_step
+from initials import mis_url, mis_username, mis_password, mis_days_depth, mis_days_step
 
 from txt_opers import log_write
 
@@ -85,8 +85,8 @@ def main_bars():
     driver.find_element(By.CLASS_NAME, "bt").click()
     log_write(f'Подтвержден кабинет и ЛПУ', indention)
 
-    # Ждем 3 секунды
-    sleep(3)
+    # Ждем 4 секунды
+    sleep(4)
 
     # Парсим страничку, на предмет нахождения на ней всплывающих сообщений и закрываем их
     try:
@@ -104,8 +104,8 @@ def main_bars():
     driver.find_element(By.LINK_TEXT, 'Журнал выданных свидетельств').click()
     log_write(f'Выбран пункт меню «Журнал выданных свидетельств»', indention)
 
-    # Ждем 2 секунды
-    sleep(2)
+    # Ждем 4 секунды
+    sleep(4)
 
     # Получаем сегодняшнюю дату
     curr_date = dt.now()
