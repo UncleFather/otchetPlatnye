@@ -1,4 +1,4 @@
-from initials import archive_path, archive_name
+from initials_common import archive_path, archive_name
 
 from txt_opers import log_write
 from datetime import datetime as dt
