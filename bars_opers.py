@@ -36,12 +36,14 @@ def send_form(driver, curr_date):
     datefield_E.send_keys(f'{curr_date:%d%m%Y}')
     log_write(f'Установлена дата окончания отчета {curr_date:%d.%m.%Y}', indention)
 
+    '''
+    # Закомментировано в связи с оптимизацией запросов к МИС «Барс»
     # Находим на форме кнопку формирования отчета и кликаем по ней
     driver.find_element(By.ID, "_mainContainer").find_element(By.CSS_SELECTOR, ".btnc").click()
     log_write(f'Запущено формирование отчета', indention)
 
     # Ждем 30 секунд
-    sleep(30)
+    sleep(30)'''
 
     # Находим на форме кнопку выгрузки отчета в xlsx файл и кликаем по ней
     driver.find_element(By.ID, "_mainContainer").find_element(By.CLASS_NAME, 'excel-button').click()
