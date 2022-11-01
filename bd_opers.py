@@ -1,4 +1,4 @@
-from initials import db_host, db_user, db_passwd, db_db
+from initials_common import db_host, db_user, db_passwd, db_db
 
 from txt_opers import log_write
 

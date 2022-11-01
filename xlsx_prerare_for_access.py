@@ -1,4 +1,4 @@
-from initials import file_paths, file_mask
+from initials_common import file_paths, file_mask
 
 from datetime import datetime as dt, time
 from openpyxl import Workbook as wkb, load_workbook as ld_wb

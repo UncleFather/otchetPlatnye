@@ -1,4 +1,4 @@
-from initials import mis_url, mis_username, mis_password, mis_days_depth, mis_days_step
+from initials_common import mis_url, mis_username, mis_password, mis_days_depth, mis_days_step
 
 from txt_opers import log_write
 

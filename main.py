@@ -1,4 +1,4 @@
-from initials import reports
+from initials_common import reports
 
 from bd_opers import bd_prepare, bd_report
 from bars_opers import main_bars
