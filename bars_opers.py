@@ -1,4 +1,4 @@
-from initials_common import mis_url, mis_username, mis_password, mis_days_depth, mis_days_step
+from initials import mis_url, mis_username, mis_password, mis_days_depth, mis_days_step
 
 from txt_opers import log_write
 
@@ -72,19 +72,24 @@ def main_bars():
     driver.set_window_size(1561, 1060)
 
     # Парсим страничку входа. Находим поле для ввода имени пользователя и записываем в него имя
-    driver.find_element(By.NAME, "DBLogin").find_element(By.CLASS_NAME, "input-ctrl").send_keys(username)
+    #driver.find_element(By.NAME, "DBLogin").find_element(By.CLASS_NAME, "input-ctrl").send_keys(username)
+    driver.find_element(By.NAME, "DBLogin").find_elements(By.XPATH, "//input[@cmpparse='Edit']")[0].send_keys(username)
     log_write(f'Введено имя пользователя', indention)
     # Находим поле для ввода пароля и записываем в него пароль
-    driver.find_element(By.NAME, "DBPassword").find_element(By.CLASS_NAME, "input-ctrl").send_keys(password)
+    #driver.find_element(By.NAME, "DBPassword").find_element(By.CLASS_NAME, "input-ctrl").send_keys(password)
+    driver.find_element(By.NAME, "DBPassword").find_elements(By.XPATH, "//input[@cmpparse='Edit']")[1].send_keys(
+        password)
     log_write(f'Введен пароль пользователя', indention)
     # Находим кнопку отправки и нажимаем ее
-    driver.find_element(By.CLASS_NAME, "bt").click()
+    #driver.find_element(By.CLASS_NAME, "bt").click()
+    driver.find_element(By.CLASS_NAME, "btn_caption").click()
     log_write(f'Инициирован процесс авторизации в МИС «Барс»', indention)
 
     # Ждем 3 секунды
     sleep(3)
     # Подтверждаем организацию и кабинет (находим кнопку и кликаем по ней)
-    driver.find_element(By.CLASS_NAME, "bt").click()
+    #driver.find_element(By.CLASS_NAME, "bt").click()
+    driver.find_element(By.CLASS_NAME, "btn_caption").click()
     log_write(f'Подтвержден кабинет и ЛПУ', indention)
 
     # Ждем 4 секунды

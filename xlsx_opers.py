@@ -1,4 +1,4 @@
-from initials_common import file_paths, file_mask, needed, titles, etalon, reports
+from initials import file_paths, file_mask, needed, titles, etalon, reports
 
 from file_opers import archive_files
 from txt_opers import writing_etalon, log_write
